@@ -1,0 +1,5 @@
+{
+  "name": "app",
+  "sources": "src",
+  "bs-dependencies": ["bs-webapi"]
+}

@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "build": "bsb -clean-world -make-world",
+    "watch": "bsb -clean-world -make-world -w",
+    "serve": "budo ./lib/js/src/app.js --port 3000 --host 0.0.0.0 --live --title particles",
+    "start": "concurrently 'npm run watch' 'npm run serve'",
+    "deploy": "npm run build && browserify lib/js/src/app.js > dist/app.js"
+  },
+  "devDependencies": {
+    "browserify": "^14.4.0",
+    "bs-platform": "^1.7.4",
+    "budo": "^10.0.3",
+    "concurrently": "^3.4.0",
+    "gh-pages": "^1.0.0"
+  },
+  "dependencies": {
+    "bs-webapi": "^0.4.1"
+  }
+}
