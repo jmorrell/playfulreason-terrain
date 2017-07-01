@@ -39,7 +39,7 @@ let generate terrain roughness => {
   let average values => {
     let valid = Js.Array.filter (fun x => x != -1.) values;
     let total = Js.Array.reduce (+.) 0. valid;
-    let len = float_of_int (Array.length values);
+    let len = float_of_int (Array.length valid);
     total /. len;
   };
 
@@ -54,6 +54,7 @@ let generate terrain roughness => {
       /* lower left */
       get terrain (x - size) (y + size),
     |];
+
     set terrain x y (avg +. offset);
   };
 
@@ -92,7 +93,7 @@ let generate terrain roughness => {
       let y = ref 0;
       while (!y <= max) {
         let x = ref ((!y + half) mod size);
-        while (!x < max) {
+        while (!x <= max) {
           diamond !x !y half (Js.Math.random () *. scale *. 2. -. scale);
           x := !x + size;
         };
@@ -127,9 +128,8 @@ let draw terrain context width height => {
     if (y == max || x == max) {
       "#000"
     } else {
-      let b = (Js.Math.floor_int (slope *. 50.)) + 128;
-      {j|rbga($b,$b,$b,1)|j};
-      /* "rgb(128,128,128)"; */
+      let b = (int_of_float (slope *. 50.)) + 128;
+      {j|rgba($b,$b,$b,1)|j};
     };
   };
 
@@ -154,15 +154,15 @@ let draw terrain context width height => {
     };
   };
 
-  for y in 0 to size {
-    for x in 0 to size {
+  for y in 0 to (size - 1) {
+    for x in 0 to (size - 1) {
       let v = get terrain x y;
       let top = project x y v;
       let bottom = project (x + 1) y 0.;
       let water = project x y waterVal;
       let style = brightness x y ((get terrain (x + 1) y) -. v);
       rect context top bottom style;
-      rect context water bottom "rgba(50, 150, 200, 0.015)";
+      rect context water bottom "rgba(50, 150, 200, 0.15)";
     };
   };
 };

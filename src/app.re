@@ -12,7 +12,7 @@ let ctx = Canvas.getContext canvas "2d";
 
 document
   |> Document.asHtmlDocument
-  |> Option.andThen  HtmlDocument.body
+  |> Option.andThen HtmlDocument.body
   |> Option.map (Element.appendChild canvas);
 
 Element.setAttribute "height" (string_of_int height) canvas;
@@ -28,6 +28,5 @@ let drawBackground context color width height => {
 drawBackground ctx "#000000" width height;
 
 let terrain = Terrain.create 9;
-Js.log terrain;
-Terrain.generate terrain 0.5;
+Terrain.generate terrain 0.7;
 Terrain.draw terrain ctx width height;
