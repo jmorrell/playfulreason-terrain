@@ -1,6 +1,6 @@
-# Particle Effects are Easy
+# Realistic terrain in 130 lines
 
-ReasonML implementation of http://www.playfuljs.com/physics-for-the-lazy/
+ReasonML implementation of http://www.playfuljs.com/realistic-terrain-in-130-lines/
 
 ## Installation
 
