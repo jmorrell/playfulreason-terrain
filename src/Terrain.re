@@ -1,4 +1,5 @@
 
+/* [%bs.debugger]; */
 open Js_typed_array;
 
 type t = {
@@ -19,27 +20,17 @@ let create detail => {
   { size, max, map };
 };
 
-let getIndex terrain x y => {
-  x + terrain.size * y;
-};
-
-let getCoord terrain i => {
-  let y = i / terrain.size;
-  let x = i - (y * terrain.size);
-  [x, y];
-};
-
 let get terrain x y => {
   if (x < 0 || x > terrain.max || y < 0 || y > terrain.max) {
     -1.
   } else {
     /* why is this unsafe? */
-    Float32Array.unsafe_get terrain.map (getIndex terrain x y);
+    Float32Array.unsafe_get terrain.map (x + terrain.size * y);
   }
 };
 
 let set terrain x y v => {
-  Float32Array.unsafe_set terrain.map (getIndex terrain x y) v;
+  Float32Array.unsafe_set terrain.map (x + terrain.size * y) v;
 };
 
 let generate terrain roughness => {
@@ -84,25 +75,28 @@ let generate terrain roughness => {
     let half = size / 2;
     let scale = float_of_int size *. roughness;
 
-    if (half >= 1) {
-
-      let maxValue = (max - half) / size;
-      for y in 0 to maxValue {
-        for x in 0 to maxValue {
-          let x0 = half + x * size;
-          let y0 = half + y * size;
-          square x0 y0 half (Js.Math.random () *. scale *. 2. -. scale);
-        }
+    if (half < 1) {
+      ()
+    } else {
+      let y = ref half;
+      while (!y < max) {
+        let x = ref half;
+        while (!x < max) {
+          square !x !y half (Js.Math.random () *. scale *. 2. -. scale);
+          x := !x + size;
+        };
+        y:= !y + size;
       };
 
-      for y in 0 to (max / half) {
-        let y0 = y * half;
-        let xStart = (y0 + half) mod size;
-        let xEnd = (max - xStart) / size;
-        for x in xStart to xEnd {
-          let x0 = xStart + (x - xStart) * size;
-          diamond x0 y0 half (Js.Math.random () *. scale *. 2. -. scale);
-        }
+
+      let y = ref 0;
+      while (!y <= max) {
+        let x = ref ((!y + half) mod size);
+        while (!x < max) {
+          diamond !x !y half (Js.Math.random () *. scale *. 2. -. scale);
+          x := !x + size;
+        };
+        y := !y + half;
       };
 
       divide (size / 2);
@@ -113,7 +107,6 @@ let generate terrain roughness => {
   set terrain max 0 (float_of_int max /. 2.);
   set terrain max max 0.;
   set terrain 0 max (float_of_int max /. 2.);
-
   divide max;
 };
 
@@ -122,7 +115,9 @@ let draw terrain context width height => {
   let {size, max} = terrain;
 
   let rect context a b style => {
-    if (b.y >= a.y) {
+    if (b.y < a.y) {
+      ();
+    } else {
       Canvas.fillStyle context style;
       Canvas.fillRect context a.x a.y (b.x -. a.x) (b.y -. a.y);
     }
@@ -132,9 +127,9 @@ let draw terrain context width height => {
     if (y == max || x == max) {
       "#000"
     } else {
-      let b = int_of_float (slope *. 50.) + 128;
-      /* {j|rbga($b,$b,$b,1)|j} */
-      "rgb(128,128,128)";
+      let b = (Js.Math.floor_int (slope *. 50.)) + 128;
+      {j|rbga($b,$b,$b,1)|j};
+      /* "rgb(128,128,128)"; */
     };
   };
 
@@ -162,12 +157,13 @@ let draw terrain context width height => {
   for y in 0 to size {
     for x in 0 to size {
       let v = get terrain x y;
+      Js.log v;
       let top = project x y v;
       let bottom = project (x + 1) y 0.;
       let water = project x y waterVal;
       let style = brightness x y ((get terrain (x + 1) y) -. v);
       rect context top bottom style;
-      rect context water bottom "rgba(50, 150, 200, 0.01)";
+      rect context water bottom "rgba(50, 150, 200, 0.015)";
     };
   };
 };
