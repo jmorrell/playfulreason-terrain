@@ -17,4 +17,4 @@ external lineTo : context => int => int => unit = "lineTo" [@@bs.send];
 external clearRect : context => int => int => int => int => unit = "clearRect" [@@bs.send];
 
 external fillStyle : context => string => unit = "fillStyle" [@@bs.set];
-external fillRect : context => int => int => int => int => unit = "fillRect" [@@bs.send];
+external fillRect : context => float => float => float => float => unit = "fillRect" [@@bs.send];

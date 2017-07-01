@@ -1,14 +1,14 @@
 ninja_required_version = 1.5.1 
 bs_package_flags = -bs-package-name app
-src_root_dir = /Users/jmorrell/workspace/reasonml/playfulreason-particles-2
-bsc = /Users/jmorrell/workspace/reasonml/playfulreason-particles-2/node_modules/bs-platform/bin/bsc.exe
-bsdep = /Users/jmorrell/workspace/reasonml/playfulreason-particles-2/node_modules/bs-platform/bin/bsb_helper.exe
+src_root_dir = /Users/jmorrell/workspace/reasonml/playfulreason-terrain
+bsc = /Users/jmorrell/workspace/reasonml/playfulreason-terrain/node_modules/bs-platform/bin/bsc.exe
+bsdep = /Users/jmorrell/workspace/reasonml/playfulreason-terrain/node_modules/bs-platform/bin/bsb_helper.exe
 ocamllex = ocamllex.opt
-bsc_flags = -nostdlib -I /Users/jmorrell/workspace/reasonml/playfulreason-particles-2/node_modules/bs-platform/lib/ocaml -no-alias-deps -color always -w -40+6+7+27+32..39+44+45
+bsc_flags = -nostdlib -I /Users/jmorrell/workspace/reasonml/playfulreason-terrain/node_modules/bs-platform/lib/ocaml -no-alias-deps -color always -w -40+6+7+27+32..39+44+45
 ppx_flags = 
-bs_package_includes = -I /Users/jmorrell/workspace/reasonml/playfulreason-particles-2/node_modules/bs-webapi/lib/ocaml
+bs_package_includes = -I /Users/jmorrell/workspace/reasonml/playfulreason-terrain/node_modules/bs-webapi/lib/ocaml
 bs_package_dev_includes = 
-refmt = /Users/jmorrell/workspace/reasonml/playfulreason-particles-2/node_modules/bs-platform/bin/refmt.exe
+refmt = /Users/jmorrell/workspace/reasonml/playfulreason-terrain/node_modules/bs-platform/bin/refmt.exe
 reason_react_jsx = 
 refmt_flags = --print binary
 bsb_dir_group = 0
@@ -35,4 +35,8 @@ build src/Option.mlast : build_ast_and_deps_from_reason_impl $src_root_dir/src/O
 build src/Option.mlast.d : build_deps src/Option.mlast
 build src/Option.cmj $src_root_dir/lib/js/src/Option.js src/Option.cmi : build_cmj_cmi src/Option.mlast
   bs_package_flags = $bs_package_flags  -bs-package-output commonjs:lib/js/src
-build build.ninja : phony  ||  src/Option.mlast.d src/Canvas.mlast.d src/app.mlast.d
+build src/Terrain.mlast : build_ast_and_deps_from_reason_impl $src_root_dir/src/Terrain.re
+build src/Terrain.mlast.d : build_deps src/Terrain.mlast
+build src/Terrain.cmj $src_root_dir/lib/js/src/Terrain.js src/Terrain.cmi : build_cmj_cmi src/Terrain.mlast
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:lib/js/src
+build build.ninja : phony  ||  src/Terrain.mlast.d src/Option.mlast.d src/Canvas.mlast.d src/app.mlast.d
