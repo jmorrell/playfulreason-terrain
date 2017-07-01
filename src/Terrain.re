@@ -157,7 +157,6 @@ let draw terrain context width height => {
   for y in 0 to size {
     for x in 0 to size {
       let v = get terrain x y;
-      Js.log v;
       let top = project x y v;
       let bottom = project (x + 1) y 0.;
       let water = project x y waterVal;
