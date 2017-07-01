@@ -1,5 +1,4 @@
 
-/* [%bs.debugger]; */
 open Js_typed_array;
 
 type t = {
