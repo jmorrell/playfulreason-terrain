@@ -39,4 +39,8 @@ build src/Terrain.mlast : build_ast_and_deps_from_reason_impl $src_root_dir/src/
 build src/Terrain.mlast.d : build_deps src/Terrain.mlast
 build src/Terrain.cmj $src_root_dir/lib/js/src/Terrain.js src/Terrain.cmi : build_cmj_cmi src/Terrain.mlast
   bs_package_flags = $bs_package_flags  -bs-package-output commonjs:lib/js/src
-build build.ninja : phony  ||  src/Terrain.mlast.d src/Option.mlast.d src/Canvas.mlast.d src/app.mlast.d
+build src/PointMap.mlast : build_ast_and_deps_from_reason_impl $src_root_dir/src/PointMap.re
+build src/PointMap.mlast.d : build_deps src/PointMap.mlast
+build src/PointMap.cmj $src_root_dir/lib/js/src/PointMap.js src/PointMap.cmi : build_cmj_cmi src/PointMap.mlast
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:lib/js/src
+build build.ninja : phony  ||  src/PointMap.mlast.d src/Terrain.mlast.d src/Option.mlast.d src/Canvas.mlast.d src/app.mlast.d

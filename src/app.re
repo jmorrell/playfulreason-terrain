@@ -27,6 +27,13 @@ let drawBackground context color width height => {
 
 drawBackground ctx "#000000" width height;
 
-let terrain = Terrain.create 9;
-Terrain.generate terrain 0.7;
-Terrain.draw terrain ctx width height;
+let t1 = Terrain.create 1;
+let t2 = Terrain.refine t1 5.0;
+let t3 = Terrain.refine t2 5.0;
+let t4 = Terrain.refine t3 5.0;
+let t5 = Terrain.refine t4 5.0;
+let t6 = Terrain.refine t5 5.0;
+let t7 = Terrain.refine t6 1.0;
+let t8 = Terrain.refine t7 1.0;
+let t9 = Terrain.refine t8 5.0;
+Terrain.draw t9 ctx width height;

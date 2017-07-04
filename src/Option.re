@@ -16,3 +16,7 @@ let andThen (f: 'a => option 'b) => fun
 let unwrapUnsafely = fun
 | Some v => v
 | None => raise (Invalid_argument "Passed `None` to unwrapUnsafely");
+
+let isSome = fun
+| Some _ => true
+| None => false;

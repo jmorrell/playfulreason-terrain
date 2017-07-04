@@ -1,1 +1,1 @@
-src/Terrain.cmj : src/Canvas.cmj
+src/Terrain.cmj : src/PointMap.cmj src/Option.cmj src/Canvas.cmj
