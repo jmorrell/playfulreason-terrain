@@ -2,5 +2,7 @@
 
 node_modules/
 dist/*.js
+/lib/*
+!/lib/js/*
 
 .merlin

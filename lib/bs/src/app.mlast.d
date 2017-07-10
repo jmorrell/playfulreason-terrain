@@ -1,1 +1,0 @@
-src/app.cmj : src/Terrain.cmj src/Option.cmj src/Canvas.cmj
