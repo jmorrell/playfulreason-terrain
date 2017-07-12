@@ -48,7 +48,7 @@ let getDiamond m x y => {
 };
 
 let average values => {
-  let valid = Js.Array.filter (Option.isSome) values;
+  let valid = Js.Array.filter (Js.Option.isSome) values;
   let total = Js.Array.reduce (fun acc x => {
     switch x {
       | Some v => acc +. v
@@ -95,8 +95,9 @@ let draw terrain context width height => {
     if (b.y < a.y) {
       ();
     } else {
-      Canvas.fillStyle context style;
-      Canvas.fillRect context a.x a.y (b.x -. a.x) (b.y -. a.y);
+      open Bs_webapi.Canvas;
+      Canvas2d.setFillStyle context String style;
+      Canvas2d.fillRect x::a.x y::a.y w::(b.x -. a.x) h::(b.y -. a.y) context;
     }
   };
 

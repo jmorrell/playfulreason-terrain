@@ -1,6 +1,7 @@
 /* externals */
 
-open ReasonJs.Dom;
+open Bs_webapi.Dom;
+open Bs_webapi.Canvas;
 
 /* canvas/context setup */
 
@@ -8,12 +9,12 @@ let width = Window.innerWidth window;
 let height = Window.innerHeight window;
 
 let canvas = Document.createElement "canvas" document;
-let ctx = Canvas.getContext canvas "2d";
+let ctx = CanvasElement.getContext2d canvas;
 
 document
   |> Document.asHtmlDocument
-  |> Option.andThen HtmlDocument.body
-  |> Option.map (Element.appendChild canvas);
+  |> Js.Option.andThen ((fun doc => HtmlDocument.body doc) [@bs])
+  |> Js.Option.map ((fun doc => Element.appendChild canvas doc) [@bs]);
 
 Element.setAttribute "height" (string_of_int height) canvas;
 Element.setAttribute "width" (string_of_int width) canvas;
@@ -21,8 +22,8 @@ Element.setAttribute "width" (string_of_int width) canvas;
 /* app code */
 
 let drawBackground context color width height => {
-  Canvas.fillStyle context color;
-  Canvas.fillRect context 0. 0. (float_of_int width) (float_of_int height);
+  Canvas2d.setFillStyle context String color;
+  Canvas2d.fillRect x::0. y::0. w::(float_of_int width) h::(float_of_int height) context;
 };
 
 drawBackground ctx "#000000" width height;
