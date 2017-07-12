@@ -4,7 +4,7 @@ ReasonML implementation of http://www.playfuljs.com/realistic-terrain-in-130-lin
 
 [Live Demo](https://jmorrell.github.io/playfulreason-terrain/)
 
-![Screenshot](https://cldup.com/gA897DT9aB.png)
+![Screenshot](https://cldup.com/uX4XYMMhor.png)
 
 ## Installation
 
